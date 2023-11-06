@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 
 // Import routers
 import authRouter from "./routes/auth.js";
+import identityRouter from "./routes/identity.js";
 
 dotenv.config();
 const port = process.env.PORT || 5000;
@@ -34,6 +35,7 @@ app.use('/images', express.static('images'));
 
 // use routers
 app.use("/auth", authRouter);
+app.use("/identity", identityRouter);
 
 /** Http get request */
 app.get("/", (req, res) => {

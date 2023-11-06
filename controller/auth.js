@@ -303,6 +303,6 @@ export const updateProfile = async (req, res) => {
     res.status(201).json({ error: false, message: "Profile updated successully", user });
   } catch (error) {
     console.error("Error uploading file:", error);
-    res.status(500).json({ error: "File upload failed" });
+    res.status(500).json({ error: true, message: "internal server error" });
   }
 }

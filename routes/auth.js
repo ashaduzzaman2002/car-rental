@@ -7,7 +7,7 @@ import {
   editProfileInputvalidation
 } from "../middleware/inputvalidation.js";
 import { validedToken } from "../middleware/tokenValidation.js";
-import { checkImageUpload, upload } from "../middleware/fileUpload.js";
+import {  handleUploadError, upload } from "../middleware/fileUpload.js";
 
 const router = express.Router();
 
@@ -17,6 +17,7 @@ router.post("/signup", userSignupInputValidation, userSignup);
 router.post("/login", userLoginInputValidation, userLogin);
 router.get("/logout", validedToken, userLogout);
 router.put("/update/number", validedToken, editProfileInputvalidation, updateNumber);
-router.put("/update/profile", validedToken, upload.single("file"), updateProfile);
+router.put("/update/profile", validedToken, upload.single("file"), handleUploadError, updateProfile);
+
 
 export default router;

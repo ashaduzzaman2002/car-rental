@@ -26,7 +26,7 @@ const newUser = new Schema(
     },
     profilePic: {
       type: String
-    }
+    },
   },
   {
     timestamps: true,

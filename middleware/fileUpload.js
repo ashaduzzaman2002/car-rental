@@ -3,35 +3,44 @@ import multer from "multer"
 // Define a storage strategy for Multer
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
+        console.log(file)
         cb(null, 'images/')
     },
     filename: (req, file, cb) => {
+
+        console.log(file)
+        let { documentName } = req.body
+
+        const match = ["image/png", "image/jpeg"];
+        if (match.indexOf(file.mimetype) === -1) {
+            const message = `${file.originalname} is invalid. Only accept png/jpeg.`;
+            return cb(new Error(message), null);
+        }
         const userId = req.userId
         const index = file.originalname.lastIndexOf('.')
         const ext = file.originalname.slice(index)
+        let filename = ''
+        if (documentName) {
+            filename = userId + documentName + ext
+        } else {
+            filename = userId + ext
 
-        const filename = userId + ext
+        }
 
         console.log(filename)
         cb(null, filename);
     }
 })
 
-export const upload = multer({ storage });
-
-export const checkImageUpload = (req, res, next) => {
-
-    if (!req.file) {
-        return res.status(400).json({ error: true, message: 'No file uploaded' });
+// handle file upload error
+export const handleUploadError = (err, req, res, next) => {
+    if (err instanceof multer.MulterError) {
+        res.status(400).json({ error: true, message: err.message });
+    } else if (err) {
+        res.status(400).json({ error: true, message: err.message });
+    } else {
+        next();
     }
-
-    const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
-    if (!allowedMimeTypes.includes(req.file.mimetype)) {
-        return res.status(400).json({
-            error: true,
-            message: 'Invalid file type. Only images (jpeg, png, gif) are allowed.',
-        });
-    }
-
-    next();
 };
+
+export const upload = multer({ storage });
