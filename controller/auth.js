@@ -8,7 +8,7 @@ import { generateOTP } from "../utils/helper.js";
 
 // const client = twilio(process.env.TIWLIO_ACCOUNT_SID, process.env.TIWLIO_AUTH_TOKEN);
 const accountSid = 'AC79e078f9ca186159b5c1a3e848c00bac';
-const authToken = 'a2f39a136902bd7e0af9c75609d9ae3b';
+const authToken = '8c20b052ee0f32dcbbfea59e7ff16e40';
 
 const client = twilio(accountSid, authToken);
 
